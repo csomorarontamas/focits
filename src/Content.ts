@@ -21,16 +21,30 @@ export default class Content {
         res.write("<title>Foci</title>");
         res.write("</head>");
         res.write("<body><form><pre>");
+
+        const params = url.parse(req.url as string, true).query;
         // 1. Olvassa be a meccs.txt állományban talált adatokat, s annak felhasználásával oldja meg a következő feladatokat! Ha az állományt nem tudja beolvasni, az első 10 mérkőzés adatait jegyezze be a programba és dolgozzon azzal!
         const megold: Megoldas = new Megoldas("meccs.txt");
 
-        //3. Feladat: 
-        res.write("3. feladat:");
+        //2. feladat:
+        res.write("2. feladat:");
+        const beker: string = params.bek as string;
+        res.write(`\nKérem az azonosítót: <input type='number' name='bek' value=${beker} style='max-width:100px;' onChange='this.form.submit();'>\n`);
+        res.write(megold.MasodikFeladat(parseInt(beker)));
+
+        //3. Feladat:
+        res.write("\n3. feladat:");
         res.write(`<p>Győztes csapat:\t${megold.HarmadikFeladat}</p>`);
 
-        /*res.write("5. feladat:");
-        res.write(`<p>${megold.LegtobbBent} voltak a legtöbben bent.</p>`);*/
+        //4. Feladat:
+        res.write("4. feladat:");
+        const bekeres: string = params.negyedik as string;
+        res.write(`\nKérem a csapatnevet: <input type='string' name='negyedik' value=${bekeres} style='max-width:100px;' onChange='this.form.submit();'>\n`);
+        res.write(megold.NegyedikFeladat(bekeres).toString());
 
+        //5. Feladat:
+        res.write("5. feladat:");
+        res.write(`<p>${megold.OtodikFeladat}</p>`);
         res.write("</body></html>");
         res.end();
     }
